@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --page-bg: #060816;
+  --page-tint: rgba(62, 227, 255, 0.14);
+  --card-bg: rgba(8, 15, 32, 0.68);
+  --card-solid: rgba(10, 18, 40, 0.92);
+  --border-color: rgba(104, 229, 255, 0.18);
+  --text-primary: #f4fbff;
+  --text-muted: #8ca7c7;
+  --status: #35f2a1;
+}
+
+.dark {
+  color-scheme: dark;
+  --page-bg: #060816;
+  --page-tint: rgba(62, 227, 255, 0.14);
+  --card-bg: rgba(8, 15, 32, 0.68);
+  --card-solid: rgba(10, 18, 40, 0.92);
+  --border-color: rgba(104, 229, 255, 0.18);
+  --text-primary: #f4fbff;
+  --text-muted: #8ca7c7;
+  --status: #35f2a1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(0, 255, 255, 0.05), transparent 22%),
+    radial-gradient(circle at 15% 10%, var(--page-tint), transparent 24%),
+    radial-gradient(circle at 85% 0%, rgba(118, 94, 255, 0.14), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(47, 104, 255, 0.12), transparent 30%),
+    var(--page-bg);
+  color: var(--text-primary);
+  font-family: var(--font-body), sans-serif;
+  @apply antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 85%);
+  opacity: 0.35;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.8) transparent;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.7);
+  border-radius: 999px;
+}
+
+input::placeholder {
+  color: #6e8ab1;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.03em;
+}
