@@ -1,8 +1,11 @@
 // API Configuration
-// Change this to your Render backend URL after deployment
-const API_URL = window.location.hostname === 'localhost' 
-  ? 'http://localhost:4000'
-  : 'https://evo-bypass-backend.onrender.com'; // Change this to your Render URL
+// In production set window.SITE_CONFIG.apiUrl or rely on same-origin /api proxying.
+const configuredApiUrl = window.SITE_CONFIG && window.SITE_CONFIG.apiUrl;
+const API_URL = configuredApiUrl
+  ? configuredApiUrl.replace(/\/$/, '')
+  : window.location.hostname === 'localhost'
+    ? 'http://localhost:4000'
+    : window.location.origin;
 
 // Export for use in other files
 window.API_CONFIG = {

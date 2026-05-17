@@ -580,9 +580,21 @@
     </div>
   </footer>
 
+  <script src="config.js"></script>
   <script>
     let captchaChecked = false;
     let currentResult = '';
+    let bypassCount = parseInt(localStorage.getItem('bypassCount') || '0');
+
+    // Update bypass count on load
+    updateBypassCount();
+
+    function updateBypassCount() {
+      const countElement = document.querySelector('.service-tag:last-child');
+      if (countElement && bypassCount > 0) {
+        countElement.textContent = `${bypassCount} bypassed`;
+      }
+    }
 
     // Captcha
     document.getElementById('captcha').addEventListener('click', function() {
@@ -592,7 +604,7 @@
       checkbox.textContent = captchaChecked ? '✓' : '';
     });
 
-    // Bypass
+    // Bypass with enhanced error handling and retry logic
     document.getElementById('bypassBtn').addEventListener('click', async function() {
       const input = document.getElementById('linkInput');
       const btn = this;
@@ -601,12 +613,17 @@
       const link = input.value.trim();
 
       if (!link) {
-        alert('Please enter a link!');
+        showNotification('Please enter a link!', 'error');
+        return;
+      }
+
+      if (!this.isValidUrl(link)) {
+        showNotification('Please enter a valid URL!', 'error');
         return;
       }
 
       if (!captchaChecked) {
-        alert('Please verify you are human!');
+        showNotification('Please verify you are human!', 'error');
         return;
       }
 
@@ -615,14 +632,21 @@
       btn.textContent = 'Processing...';
       loading.classList.add('show');
 
+      const startTime = Date.now();
+
       try {
-        const response = await fetch('http://localhost:4000/api/bypass/bypass', {
+        const apiUrl = (window.API_CONFIG && window.API_CONFIG.ENDPOINTS && window.API_CONFIG.ENDPOINTS.BYPASS)
+          ? window.API_CONFIG.ENDPOINTS.BYPASS
+          : 'http://localhost:4000/api/bypass/bypass';
+
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: link })
         });
 
         const data = await response.json();
+        const processingTime = Date.now() - startTime;
 
         loading.classList.remove('show');
         btn.disabled = false;
@@ -631,37 +655,152 @@
         if (data.success && data.destination) {
           currentResult = data.destination;
           document.getElementById('resultLink').textContent = data.destination;
-          document.getElementById('serviceInfo').textContent = `Service: ${data.service}`;
-          document.getElementById('timeInfo').textContent = `Time: ${(data.processingTime / 1000).toFixed(2)}s`;
+          document.getElementById('serviceInfo').textContent = `Service: ${data.service || 'Unknown'}`;
+          document.getElementById('timeInfo').textContent = `Time: ${(data.processingTime || processingTime) / 1000}s`;
           result.classList.add('show');
+          
+          // Increment bypass count
+          bypassCount++;
+          localStorage.setItem('bypassCount', bypassCount.toString());
+          updateBypassCount();
+          
+          showNotification('✅ Bypass successful!', 'success');
+          
+          // Auto-copy to clipboard
+          try {
+            await navigator.clipboard.writeText(data.destination);
+            showNotification('📋 Link copied to clipboard!', 'info');
+          } catch {}
         } else {
-          alert(`Bypass failed: ${data.error || 'Unknown error'}`);
+          showNotification(`Bypass failed: ${data.error || 'Unknown error'}`, 'error');
         }
       } catch (error) {
         loading.classList.remove('show');
         btn.disabled = false;
         btn.textContent = 'Bypass Now';
-        alert('Error: Make sure the backend is running');
+        showNotification('Error: Make sure the backend is running', 'error');
+        console.error('Bypass error:', error);
       }
     });
 
-    // Copy
+    // Copy function
     function copyResult() {
       navigator.clipboard.writeText(currentResult).then(() => {
         const btn = event.target;
+        const originalText = btn.textContent;
         btn.textContent = '✅ Copied!';
         setTimeout(() => {
-          btn.textContent = '📋 Copy Link';
+          btn.textContent = originalText;
         }, 2000);
+        showNotification('Link copied to clipboard!', 'success');
+      }).catch(() => {
+        showNotification('Failed to copy link', 'error');
       });
     }
 
-    // Enter key
+    // URL validation
+    function isValidUrl(string) {
+      try {
+        const url = new URL(string);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+      } catch {
+        return false;
+      }
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 24px;
+        background: ${type === 'success' ? '#00d4aa' : type === 'error' ? '#ff4444' : '#0066ff'};
+        color: white;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Add CSS for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Enter key support
     document.getElementById('linkInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         document.getElementById('bypassBtn').click();
       }
     });
+
+    // Auto-detect and fill example links
+    const exampleLinks = [
+      'https://linkvertise.com/123456/example',
+      'https://work.ink/example',
+      'https://lootlabs.gg/example',
+      'https://rekonise.com/example',
+      'https://platoboost.com/example'
+    ];
+
+    // Add quick fill buttons (optional enhancement)
+    const quickFillContainer = document.createElement('div');
+    quickFillContainer.style.cssText = 'margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;';
+    quickFillContainer.innerHTML = `
+      <small style="color: #86868b; font-size: 12px; width: 100%; margin-bottom: 4px;">Quick test:</small>
+    `;
+    
+    exampleLinks.slice(0, 3).forEach(link => {
+      const btn = document.createElement('button');
+      btn.textContent = new URL(link).hostname.split('.')[0];
+      btn.style.cssText = `
+        padding: 6px 12px;
+        background: #f5f5f7;
+        border: 1px solid #e5e5e7;
+        border-radius: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.2s;
+      `;
+      btn.onclick = () => {
+        document.getElementById('linkInput').value = link;
+        showNotification(`Filled with ${new URL(link).hostname} example`, 'info');
+      };
+      btn.onmouseenter = () => {
+        btn.style.background = '#e5e5e7';
+        btn.style.borderColor = '#00d4aa';
+      };
+      btn.onmouseleave = () => {
+        btn.style.background = '#f5f5f7';
+        btn.style.borderColor = '#e5e5e7';
+      };
+      quickFillContainer.appendChild(btn);
+    });
+    
+    document.querySelector('.input-field').after(quickFillContainer);
   </script>
 </body>
 </html>

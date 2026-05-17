@@ -1,238 +1,214 @@
-# 🚀 EVO BYPASS - Advanced Link Bypass Platform
+# 🚀 Evo Bypass
 
-![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
-![Services](https://img.shields.io/badge/services-50%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+**Free instant bypasser for Linkvertise, Lootlabs, Work.ink, Rekonise, Platoboost and 30+ more services**
 
-> Professional bypass platform supporting 50+ services with Discord bot integration
-
-## ✨ Features
-
-- 🔥 **50+ Services** - Linkvertise, Rekonise, Work.ink, Lootlabs, Platoboost, and more
-- 🤖 **Discord Bot** - 6 slash commands for easy access
-- ⚡ **Advanced Caching** - 60x faster with 1-hour cache
-- 🛡️ **Rate Limiting** - Prevents abuse (30 req/min)
-- 🔄 **Auto-Retry** - 3 attempts with fallback methods
-- 🎨 **Clean UI** - Light theme inspired by izen.lol
-- 🚀 **Production Ready** - Enterprise-grade code
-
-## 🎯 Supported Services
-
-### Primary Services
-- ✅ Linkvertise
-- ✅ Rekonise
-- ✅ Work.ink
-- ✅ Lootlabs
-- ✅ Platoboost
-
-### Secondary Services
-- Sub2Unlock, Boost.ink, Lockr.so, Shrtfly, Admaven
-- mBoost, SocialWolvez, LetsBoost, Sub2Get, Rinku.pro
-
-### Executor/Script Services
-- Codex, KeyRBLX, Flux.li, Delta, Trigon
-- Fluxus, Arceus, Hydrogen, VegaX, Evon
-
-**+ 30+ more with universal fallback!**
-
-## 🚀 Quick Start
-
-### Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run development mode
-npm run dev
-
-# Build for production
-npm run build
-```
-
-### Deploy to Render (Free)
-
-1. **Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/YOUR_USERNAME/evo-bypass.git
-   git push -u origin main
-   ```
-
-2. **Deploy to Render:**
-   - Go to https://render.com
-   - Sign in with GitHub
-   - Click "New +" → "Web Service"
-   - Select `evo-bypass` repository
-   - Follow the guide in `RENDER_GITHUB_DEPLOY.md`
-
-3. **Done!** Your app is live 24/7 for FREE! 🎉
-
-## 📚 Documentation
-
-| Guide | Description |
-|-------|-------------|
-| [RENDER_GITHUB_DEPLOY.md](RENDER_GITHUB_DEPLOY.md) | Deploy to Render + GitHub |
-| [GITHUB_SETUP.md](GITHUB_SETUP.md) | Push to GitHub guide |
-| [QUICK_DEPLOY.md](QUICK_DEPLOY.md) | 5-minute deployment |
-| [GITLAB_DEPLOYMENT_GUIDE.md](GITLAB_DEPLOYMENT_GUIDE.md) | GitLab CI/CD deployment |
-| [FINAL_DEPLOYMENT_CHECKLIST.md](FINAL_DEPLOYMENT_CHECKLIST.md) | Complete checklist |
-
-## 🤖 Discord Bot Commands
-
-```
-/bypass <url>     - Bypass any link (50+ services)
-/premium          - Check premium status
-/stats            - View bypass statistics
-/help             - Show help menu
-/ticket           - Create support ticket
-/settings         - Configure bot settings
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-```env
-# Server
-PORT=4000
-NODE_ENV=production
-
-# Discord Bot
-DISCORD_TOKEN=your_bot_token
-DISCORD_CLIENT_ID=your_client_id
-
-# Optional
-MONGO_URI=your_mongodb_uri
-CLIENT_ORIGIN=https://your-frontend-url.com
-```
-
-## 📊 API Endpoints
-
-### Bypass Link
-```bash
-POST /api/bypass/bypass
-Content-Type: application/json
-
-{
-  "url": "https://rekonise.com/blox-fruits-script-587c8"
-}
-```
-
-### Get Stats
-```bash
-GET /api/bypass/stats
-```
-
-### Health Check
-```bash
-GET /health
-```
-
-## 🎨 Tech Stack
-
-### Backend
-- Node.js + Express
-- TypeScript
-- Discord.js
-- Axios + Cheerio
-- MongoDB (optional)
-
-### Frontend
-- HTML5 + CSS3
-- Vanilla JavaScript
-- Clean UI design
-
-### Deployment
-- Render.com (free hosting)
-- GitHub (version control)
-- GitLab CI/CD (optional)
-
-## 📈 Performance
-
-- **First request:** 2-3 seconds
-- **Cached request:** <50ms (60x faster!)
-- **Success rate:** 85-95%
-- **Uptime:** 99.9%
-
-## 💰 Cost
-
-### Free Tier (Render)
-- Backend: Free (750 hours/month)
-- Frontend: Free (100GB bandwidth)
-- Total: **$0/month** ✅
-
-### Paid Tier (Optional)
-- Backend: $7/month (no sleep)
-- Database: $9/month (more storage)
-- Total: $16/month
-
-## 🔄 Update Your App
-
-```bash
-# Make changes
-git add .
-git commit -m "Update feature"
-git push origin main
-
-# Render auto-deploys! 🚀
-```
-
-## 🐛 Troubleshooting
-
-### Backend Not Starting
-```bash
-# Check logs in Render dashboard
-# Verify environment variables
-# Check build command
-```
-
-### Frontend Can't Connect
-```bash
-# Verify CLIENT_ORIGIN in backend
-# Check CORS configuration
-# Update API URL in website/config.js
-```
-
-### Discord Bot Offline
-```bash
-# Verify DISCORD_TOKEN
-# Check bot permissions
-# View logs in Render
-```
-
-## 📞 Support
-
-- 📖 Read the documentation
-- 🐛 Check troubleshooting guides
-- 💬 Create GitHub issue
-
-## 🎯 Roadmap
-
-- [ ] Add more services
-- [ ] Improve success rates
-- [ ] Add analytics dashboard
-- [ ] Add premium features
-- [ ] Add API authentication
-
-## 📄 License
-
-MIT License - feel free to use for personal or commercial projects
-
-## 🙏 Credits
-
-- Bypass APIs: bypass.vip, bypass.pm
-- UI Inspiration: izen.lol
-- Discord.js community
-
-## ⭐ Star This Repo
-
-If you find this useful, please star the repository!
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/akatsukixpain12-stack/Evo-Bypass)](https://github.com/akatsukixpain12-stack/Evo-Bypass/stargazers)
 
 ---
 
-**Made with ❤️ for the community**
+## ✨ Features
 
-**Deploy now and start bypassing! 🚀**
+- 🔗 **Link Bypasser** - Bypass 30+ services (Linkvertise, Lootlabs, Work.ink, etc.)
+- 🖼️ **Green Screen Remover** - Remove green backgrounds from images
+- 🚀 **Fast & Free** - No surveys, no downloads, instant results
+- 🔒 **Secure** - Rate limiting, API key authentication
+- 📊 **Stats Tracking** - Real-time bypass statistics
+- 🎨 **Modern UI** - Beautiful, responsive design
+
+---
+
+## 🎯 Supported Services
+
+✅ Linkvertise  
+✅ Work.ink  
+✅ Lootlabs  
+✅ Rekonise  
+✅ Platoboost  
+✅ Admaven  
+✅ Lockr.so  
+✅ Shrtfly  
+✅ Sub2Unlock  
+✅ Boost.ink  
+✅ mBoost  
+✅ **30+ more via Universal bypass**
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/akatsukixpain12-stack/Evo-Bypass.git
+cd Evo-Bypass
+
+# Install backend dependencies
+cd server
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+```
+
+### Running the Application
+
+**Terminal 1 - Backend Server:**
+```bash
+cd server
+npm run dev
+```
+Server runs at: `http://localhost:3000`
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+Frontend runs at: `http://localhost:3001`
+
+---
+
+## 📡 API Endpoints
+
+### Health Check
+```http
+GET /api/health
+```
+
+### Bypass Single URL
+```http
+POST /api/bypass
+Content-Type: application/json
+
+{
+  "url": "https://linkvertise.com/123456/example"
+}
+```
+
+### Get Statistics
+```http
+GET /api/stats
+```
+
+### Bulk Bypass (API Key Required)
+```http
+POST /api/bypass/bulk
+Content-Type: application/json
+
+{
+  "apiKey": "your-api-key",
+  "urls": ["url1", "url2"]
+}
+```
+
+---
+
+## 🛠️ Tools
+
+### 1. Link Bypasser
+- Bypass 30+ link shortener services
+- Instant results
+- No captcha for API users
+
+### 2. Green Screen Remover
+- Upload images (PNG, JPG, WEBP)
+- Adjustable sensitivity
+- Download with transparent background
+
+### 3. More Coming Soon
+- Image Compressor
+- QR Code Generator
+- URL Shortener
+
+---
+
+## 📁 Project Structure
+
+```
+Evo-Bypass/
+├── server/              # Backend API
+│   ├── services/
+│   │   └── bypass.js   # Bypass logic
+│   ├── server.js       # Express server
+│   └── package.json
+├── frontend/            # Next.js Frontend
+│   ├── app/
+│   │   ├── page.tsx    # Home page
+│   │   └── tools/      # Tools pages
+│   └── package.json
+├── website/             # Static HTML version
+└── README.md
+```
+
+---
+
+## 🔧 Configuration
+
+### Backend (.env)
+```env
+PORT=3000
+NODE_ENV=development
+CORS_ORIGIN=*
+API_KEY=your-secret-key
+```
+
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## ⚠️ Disclaimer
+
+This tool is for educational purposes only. Use responsibly and respect the terms of service of the websites you interact with.
+
+---
+
+## 🌟 Star History
+
+If you find this project useful, please consider giving it a star! ⭐
+
+---
+
+## 📧 Contact
+
+- GitHub: [@akatsukixpain12-stack](https://github.com/akatsukixpain12-stack)
+- Repository: [Evo-Bypass](https://github.com/akatsukixpain12-stack/Evo-Bypass)
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with Next.js, Express, and TypeScript
+- Inspired by the need for a free, fast bypass tool
+- Thanks to all contributors!
+
+---
+
+**Made with ❤️ by akatsukixpain12-stack**
