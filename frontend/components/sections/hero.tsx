@@ -22,9 +22,9 @@ export function HeroSection() {
 
   return (
     <section className="mx-auto w-[min(1180px,calc(100%-24px))] pb-16 pt-14 md:pt-24">
-      <div className="relative overflow-hidden rounded-[36px] border border-cyan-400/20 bg-[linear-gradient(180deg,rgba(7,13,29,0.96),rgba(4,8,18,0.96))] px-5 py-8 shadow-[0_30px_120px_rgba(0,0,0,0.4)] md:px-8 md:py-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(8,247,254,0.16),transparent_22%),radial-gradient(circle_at_85%_20%,rgba(120,75,255,0.16),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.02),transparent_46%)]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(105,240,255,0.9),transparent)]" />
+      <div className="relative overflow-hidden rounded-[44px] border border-emerald-300/20 bg-[linear-gradient(180deg,rgba(5,20,11,0.97),rgba(4,14,9,0.98))] px-5 py-8 shadow-[0_30px_120px_rgba(0,0,0,0.4)] md:px-8 md:py-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(53,242,161,0.18),transparent_22%),radial-gradient(circle_at_85%_20%,rgba(34,197,94,0.12),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.02),transparent_46%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(134,239,172,0.9),transparent)]" />
 
         <div className="relative grid gap-10 xl:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)] xl:items-center">
           <div>

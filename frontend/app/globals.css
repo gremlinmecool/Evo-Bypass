@@ -4,26 +4,34 @@
 
 :root {
   color-scheme: dark;
-  --page-bg: #060816;
-  --page-tint: rgba(62, 227, 255, 0.14);
-  --card-bg: rgba(8, 15, 32, 0.68);
-  --card-solid: rgba(10, 18, 40, 0.92);
-  --border-color: rgba(104, 229, 255, 0.18);
-  --text-primary: #f4fbff;
-  --text-muted: #8ca7c7;
-  --status: #35f2a1;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter", -apple-system, sans-serif;
+  --page-bg: #000000;
+  --page-tint: rgba(255, 255, 255, 0.03);
+  --card-bg: rgba(20, 20, 20, 0.8);
+  --card-solid: rgba(15, 15, 15, 0.95);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-muted: #a0a0a0;
+  --accent: #ffffff;
+  --accent-hover: #e0e0e0;
+  --status: #ffffff;
 }
 
 .dark {
   color-scheme: dark;
-  --page-bg: #060816;
-  --page-tint: rgba(62, 227, 255, 0.14);
-  --card-bg: rgba(8, 15, 32, 0.68);
-  --card-solid: rgba(10, 18, 40, 0.92);
-  --border-color: rgba(104, 229, 255, 0.18);
-  --text-primary: #f4fbff;
-  --text-muted: #8ca7c7;
-  --status: #35f2a1;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter", -apple-system, sans-serif;
+  --page-bg: #000000;
+  --page-tint: rgba(255, 255, 255, 0.03);
+  --card-bg: rgba(20, 20, 20, 0.8);
+  --card-solid: rgba(15, 15, 15, 0.95);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-muted: #a0a0a0;
+  --accent: #ffffff;
+  --accent-hover: #e0e0e0;
+  --status: #ffffff;
 }
 
 html {
@@ -31,12 +39,7 @@ html {
 }
 
 body {
-  background:
-    linear-gradient(180deg, rgba(0, 255, 255, 0.05), transparent 22%),
-    radial-gradient(circle at 15% 10%, var(--page-tint), transparent 24%),
-    radial-gradient(circle at 85% 0%, rgba(118, 94, 255, 0.14), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(47, 104, 255, 0.12), transparent 30%),
-    var(--page-bg);
+  background: #000000;
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
   @apply antialiased;
@@ -48,21 +51,20 @@ body::before {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 85%);
-  opacity: 0.35;
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.5;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.8) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   box-sizing: border-box;
 }
 
 *::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 *::-webkit-scrollbar-track {
@@ -70,12 +72,16 @@ body::before {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.7);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
 }
 
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 input::placeholder {
-  color: #6e8ab1;
+  color: #666666;
 }
 
 h1,
@@ -84,4 +90,108 @@ h3,
 .font-display {
   font-family: var(--font-display), sans-serif;
   letter-spacing: 0.03em;
+}
+
+/* Black & White Theme Utilities */
+.bg-black { background-color: #000000; }
+.bg-white { background-color: #ffffff; }
+.bg-gray-dark { background-color: #1a1a1a; }
+.bg-gray { background-color: #333333; }
+.bg-gray-light { background-color: #666666; }
+
+.text-white { color: #ffffff; }
+.text-black { color: #000000; }
+.text-gray { color: #a0a0a0; }
+.text-gray-dark { color: #666666; }
+
+.border-white { border-color: rgba(255, 255, 255, 0.1); }
+.border-white-strong { border-color: rgba(255, 255, 255, 0.2); }
+
+.btn-primary {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.card-bw {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card-bw:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.glow-white {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.glow-white-strong {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }

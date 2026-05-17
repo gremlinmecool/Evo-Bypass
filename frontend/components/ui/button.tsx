@@ -19,11 +19,11 @@ export function Button({
   rel
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm font-semibold transition duration-200",
+    "inline-flex items-center justify-center rounded-full border px-5 py-3 text-sm font-semibold transition duration-200",
     variant === "primary" &&
-      "border-[#0f172a] bg-[#111827] text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] hover:-translate-y-0.5 hover:bg-[#0b1220] dark:border-white/10 dark:bg-white dark:text-slate-900",
+      "border-emerald-300/20 bg-[linear-gradient(135deg,#1faa67,#35f2a1)] text-[#04210f] shadow-[0_12px_28px_rgba(53,242,161,0.22)] hover:-translate-y-0.5 hover:brightness-105 dark:border-emerald-300/20 dark:text-[#04210f]",
     variant === "secondary" &&
-      "border-[color:var(--border-color)] bg-[color:var(--card-solid)] text-[color:var(--text-primary)] hover:-translate-y-0.5 hover:bg-white/95 dark:bg-white/5",
+      "border-[color:var(--border-color)] bg-[color:var(--card-solid)] text-[color:var(--text-primary)] hover:-translate-y-0.5 hover:bg-white/5 dark:bg-white/5",
     className
   );
 

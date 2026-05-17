@@ -9,22 +9,29 @@ const BypassService = require('./services/bypass');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(helmet());
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*'
+// Security & Middleware
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Rate limiting
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true
+}));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Rate limiting - More generous limits
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 200, // 200 requests per window
   message: {
     success: false,
-    error: 'Too many requests, please try again later.'
-  }
+    error: 'Too many requests. Please try again later.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 app.use('/api/', limiter);
@@ -34,8 +41,15 @@ let stats = {
   totalBypassed: 23387799,
   successCount: 0,
   failureCount: 0,
-  serviceStats: {}
+  serviceStats: {},
+  uptime: Date.now()
 };
+
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
 
 // Routes
 
@@ -45,8 +59,9 @@ let stats = {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'operational',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
+    uptime: Math.floor((Date.now() - stats.uptime) / 1000),
+    timestamp: new Date().toISOString(),
+    version: '2.0.0'
   });
 });
 
@@ -60,7 +75,11 @@ app.get('/api/stats', (req, res) => {
       total: stats.totalBypassed,
       success: stats.successCount,
       failure: stats.failureCount,
-      services: stats.serviceStats
+      successRate: stats.successCount > 0 
+        ? ((stats.successCount / (stats.successCount + stats.failureCount)) * 100).toFixed(2) + '%'
+        : '0%',
+      services: stats.serviceStats,
+      uptime: Math.floor((Date.now() - stats.uptime) / 1000)
     }
   });
 });
@@ -79,6 +98,18 @@ app.post('/api/bypass', async (req, res) => {
       });
     }
 
+    // Validate URL format
+    try {
+      new URL(url);
+    } catch (e) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid URL format'
+      });
+    }
+
+    console.log(`[BYPASS] Processing: ${url}`);
+
     // Perform bypass
     const result = await BypassService.bypass(url);
 
@@ -87,14 +118,17 @@ app.post('/api/bypass', async (req, res) => {
       stats.totalBypassed++;
       stats.successCount++;
       stats.serviceStats[result.service] = (stats.serviceStats[result.service] || 0) + 1;
+      console.log(`[SUCCESS] ${result.service}: ${result.destination}`);
     } else {
       stats.failureCount++;
+      console.log(`[FAILURE] ${result.error}`);
     }
 
     res.json(result);
 
   } catch (error) {
-    console.error('Bypass error:', error);
+    console.error('[ERROR]', error);
+    stats.failureCount++;
     res.status(500).json({
       success: false,
       error: 'Internal server error',
@@ -125,12 +159,14 @@ app.post('/api/bypass/bulk', async (req, res) => {
       });
     }
 
-    if (urls.length > 50) {
+    if (urls.length > 100) {
       return res.status(400).json({
         success: false,
-        error: 'Maximum 50 URLs per request'
+        error: 'Maximum 100 URLs per request'
       });
     }
+
+    console.log(`[BULK] Processing ${urls.length} URLs`);
 
     // Process all URLs
     const results = await Promise.all(
@@ -148,16 +184,22 @@ app.post('/api/bypass/bulk', async (req, res) => {
       }
     });
 
+    const successful = results.filter(r => r.success).length;
+    const failed = results.filter(r => !r.success).length;
+
+    console.log(`[BULK] Complete: ${successful} success, ${failed} failed`);
+
     res.json({
       success: true,
       results: results,
       total: results.length,
-      successful: results.filter(r => r.success).length,
-      failed: results.filter(r => !r.success).length
+      successful: successful,
+      failed: failed,
+      successRate: ((successful / results.length) * 100).toFixed(2) + '%'
     });
 
   } catch (error) {
-    console.error('Bulk bypass error:', error);
+    console.error('[BULK ERROR]', error);
     res.status(500).json({
       success: false,
       error: 'Internal server error',
@@ -173,20 +215,32 @@ app.get('/api/supported', (req, res) => {
   res.json({
     success: true,
     services: [
-      { name: 'Linkvertise', status: 'active' },
-      { name: 'Work.ink', status: 'active' },
-      { name: 'Lootlabs', status: 'active' },
-      { name: 'Rekonise', status: 'active' },
-      { name: 'Platoboost', status: 'active' },
-      { name: 'Admaven', status: 'active' },
-      { name: 'Lockr.so', status: 'active' },
-      { name: 'Shrtfly', status: 'active' },
-      { name: 'Sub2Unlock', status: 'active' },
-      { name: 'Boost.ink', status: 'active' },
-      { name: 'mBoost', status: 'active' },
-      { name: 'Universal', status: 'active' }
+      { name: 'Linkvertise', status: 'active', category: 'Link Shortener' },
+      { name: 'Work.ink', status: 'active', category: 'Link Shortener' },
+      { name: 'Lootlabs', status: 'active', category: 'Link Shortener' },
+      { name: 'Rekonise', status: 'active', category: 'Social Unlock' },
+      { name: 'Platoboost', status: 'active', category: 'Key System' },
+      { name: 'Admaven', status: 'active', category: 'Link Shortener' },
+      { name: 'Lockr.so', status: 'active', category: 'Link Shortener' },
+      { name: 'Shrtfly', status: 'active', category: 'Link Shortener' },
+      { name: 'Sub2Unlock', status: 'active', category: 'Social Unlock' },
+      { name: 'Boost.ink', status: 'active', category: 'Link Shortener' },
+      { name: 'mBoost', status: 'active', category: 'Link Shortener' },
+      { name: 'Universal', status: 'active', category: 'Fallback' }
     ],
-    total: 30
+    total: 30,
+    categories: ['Link Shortener', 'Social Unlock', 'Key System', 'Fallback']
+  });
+});
+
+/**
+ * Test endpoint
+ */
+app.get('/api/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is working!',
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -194,24 +248,44 @@ app.get('/api/supported', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    error: 'Endpoint not found'
+    error: 'Endpoint not found',
+    path: req.path
   });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Server error:', err);
+  console.error('[SERVER ERROR]', err);
   res.status(500).json({
     success: false,
-    error: 'Internal server error'
+    error: 'Internal server error',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Zen Bypass Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 API: http://localhost:${PORT}/api`);
+  console.log('========================================');
+  console.log('   🚀 EVO BYPASS SERVER');
+  console.log('========================================');
+  console.log(`   Port: ${PORT}`);
+  console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`   API: http://localhost:${PORT}/api`);
+  console.log(`   Health: http://localhost:${PORT}/api/health`);
+  console.log('========================================');
+  console.log('   Server is ready!');
+  console.log('========================================\n');
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('\n[SHUTDOWN] Received SIGTERM signal');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('\n[SHUTDOWN] Received SIGINT signal');
+  process.exit(0);
 });
 
 module.exports = app;

@@ -40,7 +40,7 @@ if errorlevel 1 (
     echo [!] No remote repository configured!
     echo.
     echo Please create a GitHub repository first, then enter the URL:
-    echo Example: https://github.com/username/repo-name.git
+    echo Example: https://github.com/username/Examples.git
     echo.
     set /p repo="GitHub repo URL: "
     git remote add origin %repo%
