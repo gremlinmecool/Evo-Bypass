@@ -374,6 +374,66 @@
             line-height: 1.8;
         }
 
+        /* Donate Section */
+        .donate-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+        }
+
+        .donate-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .donate-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .donate-card h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .donate-text {
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .btn-donate {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-donate:hover {
+            background: #000000;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .donate-note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666666;
+        }
+
         /* Footer */
         footer {
             padding: 40px 0;
@@ -448,6 +508,7 @@
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#features">Features</a></li>
+                    <li><a href="#donate">Donate</a></li>
                     <li><a href="https://github.com/akatsukixpain12-stack/Evo-Bypass" target="_blank">GitHub</a></li>
                 </ul>
             </nav>
@@ -565,6 +626,23 @@
         </div>
     </section>
 
+    <!-- Donate Section -->
+    <section class="donate-section" id="donate">
+        <div class="container">
+            <div class="donate-card">
+                <h2>Support EVO Bypass</h2>
+                <p class="donate-text">
+                    If you find EVO Bypass useful, consider supporting the project!<br>
+                    Your donation helps keep the servers running and development active.
+                </p>
+                <a href="https://urpy.link/gkLVl4" target="_blank" class="btn-donate">
+                    ❤️ Donate Now
+                </a>
+                <p class="donate-note">Every contribution helps us improve and add more features!</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -572,6 +650,10 @@
             <p style="margin-top: 10px;">
                 <a href="https://github.com/akatsukixpain12-stack/Evo-Bypass" target="_blank" style="color: #ffffff; text-decoration: none;">
                     View on GitHub
+                </a>
+                 • 
+                <a href="#donate" style="color: #ffffff; text-decoration: none;">
+                    Donate
                 </a>
             </p>
         </div>
